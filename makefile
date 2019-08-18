@@ -8,7 +8,7 @@ EXEC = $(PROJ).exe
 
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -pedantic -O2
+CFLAGS = -Wall -Wextra -std=c99 -pedantic -fopenmp -O2
 
 # Source and object directories
 SRCDIR = src

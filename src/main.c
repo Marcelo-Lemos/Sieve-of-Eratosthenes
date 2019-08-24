@@ -45,7 +45,8 @@ int main(int argc, char const *argv[]) {
                    (double) (end.tv_sec - begin.tv_sec);
 
     // Print prime numbers depending on output type
-    if (!strcmp(output_type, "list") || !strcmp(output_type, "all")) {
+    if (!strcmp(output_type, "l") || !strcmp(output_type, "list") ||
+        !strcmp(output_type, "a") || !strcmp(output_type, "all")) {
         for (i = 2; i < upper_limit+1; i++) {
             if (!composite_numbers[i]) {
                 printf("%d ", i);
@@ -55,7 +56,8 @@ int main(int argc, char const *argv[]) {
     }
 
     // Print time spent depending on output type
-    if (!strcmp(output_type, "time") || !strcmp(output_type, "all")) {
+    if (!strcmp(output_type, "t") || !strcmp(output_type, "time") ||
+        !strcmp(output_type, "a") || !strcmp(output_type, "all")) {
         printf("%lf\n", time_elapsed);
     }
 

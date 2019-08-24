@@ -14,10 +14,10 @@ int main(int argc, char const *argv[]) {
     char output_type[8];
     int thread_count;
 
-    long seconds, micros;
+    double time_elapsed;
     struct timeval begin, end;
 
-    char *primes;
+    char *composite_numbers;
     int i;
 
     // Check command line arguments
@@ -34,20 +34,20 @@ int main(int argc, char const *argv[]) {
     gettimeofday(&begin, NULL);
 
     if (thread_count <= 1) {
-        primes = serial_sieve_of_eratosthenes(upper_limit);
+        composite_numbers = serial_sieve_of_eratosthenes(upper_limit);
     } else {
-        primes = parallel_sieve_of_eratosthenes(upper_limit, thread_count);
+        composite_numbers = parallel_sieve_of_eratosthenes(upper_limit, thread_count);
     }
 
     // End timer
     gettimeofday(&end, NULL);
-    seconds = end.tv_sec - begin.tv_sec;
-    micros = ((seconds * 1000000) + end.tv_usec) - (begin.tv_usec);
+    time_elapsed = (double) (end.tv_usec - begin.tv_usec) / 1000000 +
+                   (double) (end.tv_sec - begin.tv_sec);
 
     // Print prime numbers depending on output type
     if (!strcmp(output_type, "list") || !strcmp(output_type, "all")) {
         for (i = 2; i < upper_limit+1; i++) {
-            if (!primes[i]) {
+            if (!composite_numbers[i]) {
                 printf("%d ", i);
             }
         }
@@ -56,9 +56,9 @@ int main(int argc, char const *argv[]) {
 
     // Print time spent depending on output type
     if (!strcmp(output_type, "time") || !strcmp(output_type, "all")) {
-        printf("%ld,%lds\n", seconds, micros);
+        printf("%lf\n", time_elapsed);
     }
 
-    free(primes);
+    free(composite_numbers);
     return 0;
 }

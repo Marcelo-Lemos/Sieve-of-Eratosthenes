@@ -25,10 +25,10 @@ OBJ := $(patsubst %.c,$(OBJDIR)/%.o,$(notdir $(SRC)))
 all: $(EXEC)
 
 $(EXEC): $(OBJDIR) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $@
+	$(CC) $(CFLAGS) $(OBJ) -o $@ -lm
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(DEP)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ -lm
 
 # Rule for creating directories
 $(OBJDIR) $(OUTDIR):

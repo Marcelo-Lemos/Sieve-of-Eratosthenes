@@ -46,7 +46,7 @@ char * parallel_sieve_of_eratosthenes(int upper_limit, int thread_count) {
         default(none) \
         private(i, next_multiple) \
         shared(upper_limit, primes) \
-        schedule(guided)
+        schedule(static, 1)
     for (i = 2; i < upper_limit; i++) {
         // Check if number 'i' is marked as nonprime
         if (primes[i]) {

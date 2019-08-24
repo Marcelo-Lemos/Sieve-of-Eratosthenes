@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
+#include <sys/time.h>
 
 #include "sieve-of-eratosthenes.h"
 
@@ -14,8 +14,8 @@ int main(int argc, char const *argv[]) {
     char output_type[8];
     int thread_count;
 
-    double time_spent;
-    clock_t begin, end;
+    long seconds, micros;
+    struct timeval begin, end;
 
     char *primes;
     int i;
@@ -31,7 +31,7 @@ int main(int argc, char const *argv[]) {
     }
 
     // Start timer
-    begin = clock();
+    gettimeofday(&begin, NULL);
 
     if (thread_count <= 1) {
         primes = serial_sieve_of_eratosthenes(upper_limit);
@@ -40,8 +40,9 @@ int main(int argc, char const *argv[]) {
     }
 
     // End timer
-    end = clock();
-    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    gettimeofday(&end, NULL);
+    seconds = end.tv_sec - begin.tv_sec;
+    micros = ((seconds * 1000000) + end.tv_usec) - (begin.tv_usec);
 
     // Print prime numbers depending on output type
     if (!strcmp(output_type, "list") || !strcmp(output_type, "all")) {
@@ -55,7 +56,7 @@ int main(int argc, char const *argv[]) {
 
     // Print time spent depending on output type
     if (!strcmp(output_type, "time") || !strcmp(output_type, "all")) {
-        printf("%lf\n", time_spent);
+        printf("%ld,%lds\n", seconds, micros);
     }
 
     free(primes);

@@ -29,7 +29,7 @@ char * serial_sieve_of_eratosthenes(int upper_limit) {
         }
 
         // Mark all multiples
-        next_multiple = 2 * i;
+        next_multiple = i * i;
         while (next_multiple <= upper_limit) {
             composite_numbers[next_multiple] = 1;
             next_multiple += i;
@@ -51,7 +51,8 @@ char * parallel_sieve_of_eratosthenes(int upper_limit, int thread_count) {
     // Calculate max check value
     max_check = sqrt(upper_limit) + 1;
 
-    #pragma omp parallel for num_threads(thread_count) \
+    #pragma omp parallel for \
+        num_threads(thread_count) \
         default(none) \
         private(i, next_multiple) \
         shared(max_check, upper_limit, composite_numbers) \
@@ -63,7 +64,7 @@ char * parallel_sieve_of_eratosthenes(int upper_limit, int thread_count) {
         }
 
         // Mark all multiples
-        next_multiple = 2 * i;
+        next_multiple = i * i;
         while (next_multiple <= upper_limit) {
             composite_numbers[next_multiple] = 1;
             next_multiple += i;

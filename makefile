@@ -22,20 +22,16 @@ OBJ := $(patsubst %.c,$(OBJDIR)/%.o,$(notdir $(SRC)))
 #################################### RULES #####################################
 
 # Rules for compiling
-all: $(EXEC)
+all: sieve-parallel.exe sieve-sequential.exe
 
-$(EXEC): $(OBJDIR) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $@ -lm
+sieve-parallel.exe: src/sieve-parallel.c
+	$(CC) $(CFLAGS) src/sieve-parallel.c -o $@ -lm
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c $(DEP)
-	$(CC) $(CFLAGS) -c $< -o $@ -lm
-
-# Rule for creating directories
-$(OBJDIR) $(OUTDIR):
-	@mkdir -p $@
+sieve-sequential.exe: src/sieve-sequential.c
+	$(CC) $(CFLAGS) src/sieve-sequential.c -o $@ -lm
 
 # Rule for cleaning the directory
 clean:
-	rm -rf $(EXEC) $(OBJDIR)
+	rm -rf *.exe $(OBJDIR)
 
 .PHONY: all clean
